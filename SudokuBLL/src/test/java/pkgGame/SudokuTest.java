@@ -3,10 +3,14 @@ package pkgGame;
 import static org.junit.Assert.*;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import org.junit.Test;
+
+import pkgEnum.eGameDifficulty;
 
 public class SudokuTest {
 
@@ -121,7 +125,7 @@ public class SudokuTest {
 			fail("Test failed to build a Sudoku");
 		}
 
-	}*/
+	}
 
 
 	@Test
@@ -137,6 +141,53 @@ public class SudokuTest {
 		}
 	}
 
+*/
 
+	
+	@Test
+	public void RemoveCellsTest() throws Exception {
+		Sudoku s1 = null;
+		int iPuzzleSize = 9;	
+		eGameDifficulty eGD = eGameDifficulty.EASY;
+		try {
+			System.out.println("in here");
+			Class<?> c = Class.forName("pkgGame.Sudoku");
+			Constructor constructor = c.getConstructor(new Class[] { int.class, eGameDifficulty.class });
+			constructor.setAccessible(true);
+			s1 = (Sudoku) constructor.newInstance(iPuzzleSize, eGD);
+			
+			Field meGD= c.getDeclaredField("eGameDifficulty");
+			meGD.setAccessible(true);
+			eGameDifficulty oldeGD= (eGameDifficulty) meGD.get(c);
+			System.out.println("here");
+			assertEquals(eGD, oldeGD);
+			
+			Method mTestingThings = c.getDeclaredMethod("RemoveCells", null);
+			mTestingThings.setAccessible(true);
+			mTestingThings.invoke(s1, null);
+			
+			eGameDifficulty neweGD = (eGameDifficulty) meGD.get(this);
+			System.out.println(neweGD);
+			System.out.println("down here");
+		}
+		catch (ClassNotFoundException e1) {
+			fail("ClassNotFoundException");
+		} catch (NoSuchMethodException e) {
+			fail("NoSuchMethodException");
+		} catch (SecurityException e) {
 
+			fail("SecurityException");
+		} catch (InstantiationException e) {
+			fail("InstantiationException");
+		} catch (IllegalAccessException e) {
+			fail("IllegalAccessException");
+		} catch (IllegalArgumentException e) {
+			fail("IllegalArgumentException");
+		} catch (InvocationTargetException e) {
+			fail("InvocationTargetException, Invalid size");
+		}
+		
+		finally {
+		}
+	}
 }
