@@ -736,7 +736,7 @@ public class Sudoku extends LatinSquare implements Serializable {
 	}
 	
 	private void TestingThings() {
-		eGameDifficulty eDG = eGameDifficulty.HARD;
+		eGameDifficulty = eGameDifficulty.HARD;
 		RemoveCells();
 	}
 }

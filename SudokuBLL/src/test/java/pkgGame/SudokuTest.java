@@ -150,7 +150,6 @@ public class SudokuTest {
 		int iPuzzleSize = 9;	
 		eGameDifficulty eGD = eGameDifficulty.EASY;
 		try {
-			System.out.println("in here");
 			Class<?> c = Class.forName("pkgGame.Sudoku");
 			Constructor constructor = c.getConstructor(new Class[] { int.class, eGameDifficulty.class });
 			constructor.setAccessible(true);
@@ -158,36 +157,39 @@ public class SudokuTest {
 			
 			Field meGD= c.getDeclaredField("eGameDifficulty");
 			meGD.setAccessible(true);
-			eGameDifficulty oldeGD= (eGameDifficulty) meGD.get(c);
-			System.out.println("here");
+			eGameDifficulty oldeGD= (eGameDifficulty) meGD.get(s1);
 			assertEquals(eGD, oldeGD);
 			
-			Method mTestingThings = c.getDeclaredMethod("RemoveCells", null);
+			Method mTestingThings = c.getDeclaredMethod("TestingThings", (Class<?>[]) null);
 			mTestingThings.setAccessible(true);
-			mTestingThings.invoke(s1, null);
+			mTestingThings.invoke(s1, (Object []) null);
 			
-			eGameDifficulty neweGD = (eGameDifficulty) meGD.get(this);
-			System.out.println(neweGD);
-			System.out.println("down here");
+			eGameDifficulty neweGD = (eGameDifficulty) meGD.get(s1);
+			//eGameDifficulty got changed to hard in the private method
+			eGD=eGameDifficulty.HARD;
+			assertEquals(eGD, neweGD);
 		}
 		catch (ClassNotFoundException e1) {
+			System.out.println("Classnotfoundexception");
 			fail("ClassNotFoundException");
 		} catch (NoSuchMethodException e) {
+			System.out.println("NoSuchmethodException");
 			fail("NoSuchMethodException");
 		} catch (SecurityException e) {
-
+			System.out.println("Securityexception");
 			fail("SecurityException");
 		} catch (InstantiationException e) {
+			System.out.println("Instantiationexception");
 			fail("InstantiationException");
 		} catch (IllegalAccessException e) {
+			System.out.println("IllegalAccessexception");
 			fail("IllegalAccessException");
 		} catch (IllegalArgumentException e) {
+			System.out.println("IllegalArgumentexception");
 			fail("IllegalArgumentException");
 		} catch (InvocationTargetException e) {
+			System.out.println("InvocationTargetexception");
 			fail("InvocationTargetException, Invalid size");
-		}
-		
-		finally {
 		}
 	}
 }
